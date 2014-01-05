@@ -1,0 +1,18 @@
+{
+  "name": "boilerplate.pxwrk.de",
+  "description": "Project by @DerZyklop",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "matchdep": "~0.1.2",
+    "grunt-open": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-sass": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-php": "~0.2.0",
+    "grunt-contrib-cssmin": "~0.6.2"
+  }
+}
