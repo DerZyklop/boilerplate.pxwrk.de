@@ -1,0 +1,3 @@
+[submodule "assets/sass/sass-boilerplate"]
+	path = assets/sass/sass-boilerplate
+	url = https://github.com/DerZyklop/sass-boilerplate.git
