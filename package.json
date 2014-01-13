@@ -3,6 +3,7 @@
   "description": "Project by @DerZyklop",
   "version": "0.0.1",
   "private": true,
+  "author": "Nils Neumann <mail@der-zyklop.com>",
   "devDependencies": {
     "grunt": "0.4.x",
     "matchdep": "0.1.x",
@@ -15,5 +16,9 @@
     "grunt-php": "0.2.x",
     "grunt-contrib-cssmin": "0.6.x",
     "grunt-autoprefixer": "0.6.x"
+  },
+  "scripts": {
+    "start": "grunt server",
+    "watch": "grunt watch"
   }
 }
