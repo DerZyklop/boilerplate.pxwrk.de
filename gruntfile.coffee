@@ -89,17 +89,25 @@ module.exports = (grunt) ->
         options:
           compass: true
           style: 'compressed'
-        files: '<%= paths.sass %>pre_css/<%= paths.sassfilename %>.css': '<%= paths.sass %><%= paths.sassfilename %>.sass'
+        files: '<%= paths.sass %>css/<%= paths.sassfilename %>.css': '<%= paths.sass %><%= paths.sassfilename %>.sass'
+
+    # add and remove prefixes
+    autoprefixer:
+      all:
+        expand: true
+        flatten: true
+        src: '<%= paths.sass %>css/*.css'
+        dest: '<%= paths.sass %>prefixed_css/'
 
     # minify css-files
     cssmin:
       options:
         banner: '<%= banner %>'
       all:
-        files:
-          '<%= paths.css %><%= paths.sassfilename %>.css': [
-            '<%= paths.sass %>pre_css/*.css'
-          ]
+        expand: false
+        flatten: true
+        src: '<%= paths.sass %>prefixed_css/*.css'
+        dest: '<%= paths.css %><%= paths.sassfilename %>.css'
 
 
     watch:
@@ -111,12 +119,17 @@ module.exports = (grunt) ->
           '<%= paths.js %>**/*.js'
         ]
         tasks: ['reload']
+
       sass:
         files: ['<%= paths.sass %>**/*.sass']
         tasks: ['sass']
-      css:
-        files: ['<%= paths.sass %>*.css']
+      prefixes:
+        files: ['<%= paths.sass %>css/*.css']
+        tasks: ['autoprefixer']
+      cssmin:
+        files: ['<%= paths.sass %>prefixed_css/*.css']
         tasks: ['cssmin']
+
       coffee:
         files: ['<%= paths.coffee %>*.coffee']
         tasks: ['coffee']
