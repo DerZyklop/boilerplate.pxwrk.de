@@ -103,6 +103,13 @@ module.exports = (grunt) ->
         src: '<%= paths.sass %>prefixed_css/*.css'
         dest: '<%= paths.css %><%= paths.sassfilename %>.css'
 
+    # test accessability
+    shell:
+      pa11y:
+        options:
+          stdout: true
+        command: 'pa11y http://<%= php.all.options.hostname %>:<%= php.all.options.port%>'
+
 
     watch:
       options:
@@ -162,4 +169,5 @@ module.exports = (grunt) ->
 
 
   grunt.registerTask('server', ['open','php'])
+  grunt.registerTask('test', ['shell:pa11y'])
   grunt.registerTask('default', ['reload','watch'])
