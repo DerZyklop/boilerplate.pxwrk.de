@@ -15,7 +15,8 @@
     "grunt-contrib-copy": "0.4.x",
     "grunt-php": "0.2.x",
     "grunt-contrib-cssmin": "0.6.x",
-    "grunt-autoprefixer": "0.6.x"
+    "grunt-autoprefixer": "0.6.x",
+    "grunt-shell": "~0.6.1"
   },
   "scripts": {
     "start": "grunt server",
