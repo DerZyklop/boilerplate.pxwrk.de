@@ -103,6 +103,28 @@ module.exports = (grunt) ->
         src: '<%= paths.sass %>prefixed_css/*.css'
         dest: '<%= paths.css %><%= paths.sassfilename %>.css'
 
+    # compress images
+    imagemin:
+      options:
+        optimizationLevel: 7
+      all:
+        files: [
+          expand: true
+          cwd: './thumbs/uncompressed'
+          src: ['**/*.{gif,png}']
+          dest: './thumbs/'
+        ]
+      jpg:
+        options:
+          progressive: true
+        files: [
+          expand: true
+          cwd: './thumbs/uncompressed'
+          src: ['**/*.jpg']
+          dest: './thumbs/'
+        ]
+
+
     # test accessability
     shell:
       pa11y:
@@ -139,6 +161,11 @@ module.exports = (grunt) ->
           '<%= paths.coffee %>pre_js/*.js'
         ]
         tasks: ['uglify']
+      images:
+        files: [
+          'thumbs/uncompressed/**/*.{gif,png,jpg}'
+        ]
+        tasks: ['newer:imagemin']
       tmpl:
         files: [
           'site/templates/*'
@@ -170,4 +197,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask('server', ['open','php'])
   grunt.registerTask('test', ['shell:pa11y'])
+  grunt.registerTask('images', ['newer:imagemin'])
+
   grunt.registerTask('default', ['reload','watch'])
+

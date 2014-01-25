@@ -13,10 +13,12 @@
     "grunt-contrib-sass": "0.4.x",
     "grunt-contrib-uglify": "0.2.x",
     "grunt-contrib-copy": "0.4.x",
+    "grunt-contrib-imagemin": "0.5.x",
     "grunt-php": "0.2.x",
     "grunt-contrib-cssmin": "0.6.x",
     "grunt-autoprefixer": "0.6.x",
-    "grunt-shell": "~0.6.1"
+    "grunt-shell": "~0.6.1",
+    "grunt-newer": "~0.6.1"
   },
   "scripts": {
     "start": "grunt server",
