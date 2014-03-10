@@ -7,7 +7,6 @@
   "devDependencies": {
     "grunt": "0.4.x",
     "matchdep": "0.1.x",
-    "grunt-open": "0.2.x",
     "grunt-contrib-watch": "0.5.x",
     "grunt-contrib-coffee": "0.7.x",
     "grunt-contrib-sass": "0.4.x",
@@ -18,7 +17,8 @@
     "grunt-contrib-cssmin": "0.6.x",
     "grunt-autoprefixer": "0.6.x",
     "grunt-shell": "~0.6.1",
-    "grunt-newer": "~0.6.1"
+    "grunt-newer": "~0.6.1",
+    "grunt-concurrent": "~0.5.0"
   },
   "scripts": {
     "start": "grunt server",

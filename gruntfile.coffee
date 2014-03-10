@@ -51,7 +51,15 @@ module.exports = (grunt) ->
 
     # process coffee-files
     coffee:
-      all:
+      dev:
+        files: [
+          expand: true
+          cwd: '<%= paths.coffee %>'
+          src: ['*.coffee']
+          dest: '<%= paths.js %>script.js'
+          ext: '.js'
+        ]
+      prod:
         options:
           join: false
           bare: true
@@ -97,7 +105,12 @@ module.exports = (grunt) ->
     cssmin:
       options:
         banner: '<%= banner %>'
-      all:
+      dev:
+        expand: false
+        flatten: true
+        src: '<%= paths.sass %>css/*.css'
+        dest: '<%= paths.css %><%= paths.sassfilename %>.css'
+      prod:
         expand: false
         flatten: true
         src: '<%= paths.sass %>prefixed_css/*.css'
@@ -136,43 +149,33 @@ module.exports = (grunt) ->
     watch:
       options:
         livereload: true
-      livereload:
-        files: [
-          '<%= paths.css %>**/*.css'
-          '<%= paths.js %>**/*.js'
-        ]
-        tasks: ['reload']
 
-      sass:
+      styles_dev:
         files: ['<%= paths.sass %>**/*.sass']
-        tasks: ['sass']
-      prefixes:
-        files: ['<%= paths.sass %>css/*.css']
-        tasks: ['autoprefixer']
-      cssmin:
-        files: ['<%= paths.sass %>prefixed_css/*.css']
-        tasks: ['cssmin']
-
-      coffee:
+        tasks: ['newer:sass','newer:cssmin:dev']
+      script_dev:
         files: ['<%= paths.coffee %>*.coffee']
-        tasks: ['coffee']
-      js:
-        files: [
-          '<%= paths.coffee %>pre_js/*.js'
-        ]
-        tasks: ['uglify']
+        tasks: ['newer:coffee:dev']
+
+      styles_prod:
+        files: ['<%= paths.sass %>**/*.sass']
+        tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod']
+      script_prod:
+        files: ['<%= paths.coffee %>*.coffee']
+        tasks: ['newer:coffee:prod','newer:uglify']
+
       images:
         files: [
           'thumbs/uncompressed/**/*.{gif,png,jpg}'
         ]
         tasks: ['newer:imagemin']
-      tmpl:
+
+      templates:
         files: [
-          'site/templates/*'
-          'site/snippets/*'
-          'site/plugins/*'
+          'site/templates/**/*'
+          'site/snippets/**/*'
+          'site/plugins/**/*'
         ]
-        tasks: ['reload']
 
     php:
       all:
@@ -181,23 +184,17 @@ module.exports = (grunt) ->
           hostname: 'localhost'
           base: '<%= paths.base %>'
           keepalive: true
+          open: true
 
-    open:
-      all:
-        path: 'http://<%= php.all.options.hostname %>:<%= php.all.options.port%>'
-
-
-  grunt.registerTask "reload", "reload Chrome on OS X", ->
-    require("child_process").exec("osascript " +
-        "-e 'tell application \"Google Chrome\" " +
-          "to tell the active tab of its first window' " +
-        "-e 'reload' " +
-        "-e 'end tell'")
+    concurrent:
+      dev: ['watch']
+      options:
+        logConcurrentOutput: true
 
 
-  grunt.registerTask('server', ['open','php'])
-  grunt.registerTask('test', ['shell:pa11y'])
-  grunt.registerTask('images', ['newer:imagemin'])
+  grunt.registerTask('server', ['php'])
 
-  grunt.registerTask('default', ['reload','watch'])
+  #grunt.registerTask('test', ['shell:pa11y'])
 
+  grunt.registerTask('default', ['watch'])
+  grunt.registerTask('dev', ['concurrent:dev']);
