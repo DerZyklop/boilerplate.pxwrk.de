@@ -136,9 +136,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.css %>'
-          src: ['*.css']
-          dest: '<%= paths.css %>'
+          cwd: '<%= paths.sass %>'
+          src: ['css/*.css']
+          dest: '<%= paths.sass %>'
         ]
 
 
