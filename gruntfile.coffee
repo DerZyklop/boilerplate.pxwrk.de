@@ -172,36 +172,47 @@ module.exports = (grunt) ->
 
 
     watch:
-      options:
-        livereload: true
 
       styles_dev:
         files: ['<%= paths.sass %>**/*.sass']
         tasks: ['newer:sass','newer:cssmin:dev','newer:imageEmbed','copy']
+        options:
+          livereload: true
       script_dev:
         files: ['<%= paths.coffee %>*.coffee']
         tasks: ['newer:coffee:dev']
+        options:
+          livereload: true
 
       styles_prod:
         files: ['<%= paths.sass %>**/*.sass']
         #tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','newer:imageEmbed']
         tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','copy']
+        options:
+          livereload: true
       script_prod:
         files: ['<%= paths.coffee %>*.coffee']
         tasks: ['newer:coffee:prod','newer:uglify']
+        options:
+          livereload: true
 
       images:
         files: [
           'thumbs/uncompressed/**/*.{gif,png,jpg}'
         ]
         tasks: ['newer:imagemin']
+        options:
+          livereload: true
 
       templates:
         files: [
           'site/templates/**/*'
           'site/snippets/**/*'
           'site/plugins/**/*'
+          'assets/images/**/*'
         ]
+        options:
+          livereload: true
 
 
     php:
@@ -216,9 +227,9 @@ module.exports = (grunt) ->
 
     concurrent:
       dev:
-        tasks: ['php','watch']
+        tasks: ['php','switchwatch:styles_dev:script_dev:images:templates']
       prod:
-        tasks: ['php','watch']
+        tasks: ['php','switchwatch:styles_prod:script_prod:images:templates']
       options:
         logConcurrentOutput: true
 
