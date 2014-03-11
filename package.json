@@ -1,7 +1,7 @@
 {
   "name": "boilerplate.pxwrk.de",
   "description": "Project by @DerZyklop",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "author": "Nils Neumann <mail@der-zyklop.com>",
   "devDependencies": {
