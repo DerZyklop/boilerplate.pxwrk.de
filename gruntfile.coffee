@@ -50,7 +50,7 @@ module.exports = (grunt) ->
           cwd: '<%= paths.coffee %>'
           src: ['*.coffee']
           dest: '<%= paths.js %>'
-          ext: '.min.js'
+          ext: '.js'
         ]
       prod:
         options:
@@ -71,7 +71,7 @@ module.exports = (grunt) ->
         banner: '<%= banner %>'
       js:
         files:
-          '<%= paths.js %>script.min.js': [
+          '<%= paths.js %>script.js': [
             '<%= paths.coffee %>pre_js/jquery*.js'
             '<%= paths.coffee %>pre_js/*.js'
           ]
