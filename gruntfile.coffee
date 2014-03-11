@@ -91,10 +91,12 @@ module.exports = (grunt) ->
     # add and remove prefixes
     autoprefixer:
       all:
-        expand: true
-        flatten: true
-        src: '<%= paths.sass %>css/*.css'
-        dest: '<%= paths.sass %>prefixed_css/'
+        files: [
+          expand: true
+          cwd: '<%= paths.sass %>'
+          src: ['css/*.css']
+          dest: '<%= paths.sass %>'
+        ]
 
 
     # minify css-files
@@ -102,15 +104,42 @@ module.exports = (grunt) ->
       options:
         banner: '<%= banner %>'
       dev:
-        expand: false
-        flatten: true
-        src: '<%= paths.sass %>css/*.css'
-        dest: '<%= paths.css %><%= paths.sassfilename %>.css'
+        files: [
+          expand: true
+          cwd: '<%= paths.sass %>'
+          src: ['css/*.css']
+          dest: '<%= paths.sass %>'
+        ]
       prod:
-        expand: false
-        flatten: true
-        src: '<%= paths.sass %>prefixed_css/*.css'
-        dest: '<%= paths.css %><%= paths.sassfilename %>.css'
+        files: [
+          expand: true
+          cwd: '<%= paths.sass %>'
+          src: ['css/*.css']
+          dest: '<%= paths.sass %>'
+        ]
+
+
+    copy:
+      all:
+        files: [
+          flatten: true
+          expand: true
+          cwd: '<%= paths.sass %>'
+          src: ['css/*.css']
+          dest: '<%= paths.css %>'
+        ]
+
+
+    imageEmbed:
+      options:
+        deleteAfterEncoding : false
+      all:
+        files: [
+          expand: true
+          cwd: '<%= paths.css %>'
+          src: ['*.css']
+          dest: '<%= paths.css %>'
+        ]
 
 
     # compress images
@@ -134,7 +163,6 @@ module.exports = (grunt) ->
           dest: './thumbs/'
         ]
 
-
     # test accessability
     shell:
       pa11y:
@@ -149,14 +177,15 @@ module.exports = (grunt) ->
 
       styles_dev:
         files: ['<%= paths.sass %>**/*.sass']
-        tasks: ['newer:sass','newer:cssmin:dev']
+        tasks: ['newer:sass','newer:cssmin:dev','newer:imageEmbed','copy']
       script_dev:
         files: ['<%= paths.coffee %>*.coffee']
         tasks: ['newer:coffee:dev']
 
       styles_prod:
         files: ['<%= paths.sass %>**/*.sass']
-        tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod']
+        #tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','newer:imageEmbed']
+        tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','copy']
       script_prod:
         files: ['<%= paths.coffee %>*.coffee']
         tasks: ['newer:coffee:prod','newer:uglify']
@@ -185,13 +214,13 @@ module.exports = (grunt) ->
           open: true
 
 
-    # concurrent:
-    #   dev:
-    #     tasks: ['watch:styles_dev','watch:script_dev']
-    #   prod:
-    #     tasks: ['watch:styles_prod','watch:script_prod']
-    #   options:
-    #     logConcurrentOutput: true
+    concurrent:
+      dev:
+        tasks: ['php','watch']
+      prod:
+        tasks: ['php','watch']
+      options:
+        logConcurrentOutput: true
 
 
   # Run with: grunt switchwatch:target1:target2 to only watch those targets
@@ -207,5 +236,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask('server', ['php'])
 
-  grunt.registerTask('dev', ['switchwatch:styles_dev:script_dev:images:templates'])
-  grunt.registerTask('prod',['switchwatch:styles_prod:script_prod:images:templates'])
+  #grunt.registerTask('dev', ['switchwatch:styles_dev:script_dev:images:templates'])
+  grunt.registerTask('dev', ['concurrent:dev'])
+  #grunt.registerTask('prod',['switchwatch:styles_prod:script_prod:images:templates'])
+  grunt.registerTask('prod',['concurrent:dev'])
