@@ -23,5 +23,8 @@
   "scripts": {
     "start": "grunt server",
     "watch": "grunt watch"
+  },
+  "dependencies": {
+    "time-grunt": "~0.2.10"
   }
 }
