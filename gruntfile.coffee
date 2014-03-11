@@ -49,7 +49,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: '<%= paths.coffee %>'
           src: ['*.coffee']
-          dest: '<%= paths.js %>'
+          dest: '<%= paths.coffee %>pre_js'
           ext: '.js'
         ]
       prod:
@@ -69,7 +69,7 @@ module.exports = (grunt) ->
     uglify:
       options:
         banner: '<%= banner %>'
-      js:
+      all:
         files:
           '<%= paths.js %>script.js': [
             '<%= paths.coffee %>pre_js/jquery*.js'
@@ -180,7 +180,7 @@ module.exports = (grunt) ->
           livereload: true
       script_dev:
         files: ['<%= paths.coffee %>*.coffee']
-        tasks: ['newer:coffee:dev']
+        tasks: ['newer:coffee:dev','newer:uglify']
         options:
           livereload: true
 
