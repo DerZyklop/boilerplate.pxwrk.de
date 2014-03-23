@@ -175,7 +175,7 @@ module.exports = (grunt) ->
 
       styles_dev:
         files: ['<%= paths.sass %>**/*.sass']
-        tasks: ['newer:sass','newer:cssmin:dev','copy','newer:imageEmbed']
+        tasks: ['sass','newer:cssmin:dev','copy','newer:imageEmbed']
         options:
           livereload: true
       script_dev:
@@ -187,7 +187,7 @@ module.exports = (grunt) ->
       styles_prod:
         files: ['<%= paths.sass %>**/*.sass']
         #tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','newer:imageEmbed']
-        tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','copy']
+        tasks: ['sass','newer:autoprefixer','newer:cssmin:prod','copy']
         options:
           livereload: true
       script_prod:
