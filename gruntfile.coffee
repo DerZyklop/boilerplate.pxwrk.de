@@ -36,7 +36,7 @@ module.exports = (grunt) ->
 
     # load content from the package.json
     pkg: grunt.file.readJSON('package.json')
-    paths: grunt.file.readJSON('boilerplate.json')
+    paths: grunt.file.readJSON('conf/boilerplate.json')
 
 
     banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
@@ -64,7 +64,6 @@ module.exports = (grunt) ->
           ext: '.js'
         ]
 
-
     # minify js-files
     uglify:
       options:
@@ -77,6 +76,11 @@ module.exports = (grunt) ->
           ]
         options:
           mangle: false
+
+    eslint:
+      options:
+        config: 'conf/eslint.json'
+      all: ['<%= paths.coffee %>pre_js/*.js']
 
 
     # process sass-files
@@ -180,7 +184,7 @@ module.exports = (grunt) ->
           livereload: true
       script_dev:
         files: ['<%= paths.coffee %>*.coffee']
-        tasks: ['newer:coffee:dev','newer:uglify']
+        tasks: ['newer:coffee:dev','newer:uglify','newer:eslint']
         options:
           livereload: true
 
