@@ -5,7 +5,7 @@
   "private": true,
   "author": "Nils Neumann <mail@der-zyklop.com>",
   "devDependencies": {
-    "grunt": "0.4.x",
+    "grunt": "~0.4.4",
     "matchdep": "0.1.x",
     "grunt-contrib-watch": "0.5.x",
     "grunt-contrib-coffee": "0.7.x",
@@ -19,7 +19,8 @@
     "grunt-shell": "~0.6.1",
     "grunt-newer": "~0.6.1",
     "grunt-concurrent": "~0.5.0",
-    "grunt-image-embed": "~0.3.1"
+    "grunt-image-embed": "~0.3.1",
+    "grunt-eslint": "~0.3.2"
   },
   "scripts": {
     "start": "grunt server",
