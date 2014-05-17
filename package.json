@@ -22,10 +22,6 @@
     "grunt-image-embed": "~0.3.1",
     "grunt-eslint": "~0.3.2"
   },
-  "scripts": {
-    "start": "grunt server",
-    "watch": "grunt watch"
-  },
   "dependencies": {
     "time-grunt": "~0.2.10"
   }
