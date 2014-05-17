@@ -1,257 +1,137 @@
-# +---------------------------------------------+ #
-# |#############################################| #
-# |###################EEEEEEE###################| #
-# |##################/      /\##################| #
-# |#################/      /  \#################| #
-# |################/      /    \################| #
-# |###############/      /      \###############| #
-# |##############/      /        \##############| #
-# |#############/      /     A    \#############| #
-# |############/      /     / \    \############| #
-# |###########/      /     /   \    \###########| #
-# |##########/      /     /     \    \##########| #
-# |#########/      /     /#\     \    \#########| #
-# |########/      /     /###\     \    \########| #
-# |#######/      /     /#####\     \    \#######| #
-# |######/      /_____/EEEEEEE\     \    \######| #
-# |#####/                      \     \    \#####| #
-# |####(________________________\     \    )####| #
-# |#####\                              \  /#####| #
-# |######\______________________________\/######| #
-# |#############################################| #
-# |############# +-------------------+ #########| #
-# |############# | www.der-zyklop.de | #########| #
-# |############# +-------------------+ #########| #
-# |#############################################| #
-# +–––––––––––––––––––––––––––––––––––––––––––––+ #
-
-# Info's about this Gruntfile: https://github.com/DerZyklop/boilerplate.pxwrk.de
-
 module.exports = (grunt) ->
 
+  # Get all grunt modules
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
-  require('time-grunt')(grunt)
 
+  # Project configuration.
   grunt.initConfig
 
-    # load content from the package.json
+    # Collect data about the project
     pkg: grunt.file.readJSON('package.json')
-    paths: grunt.file.readJSON('conf/boilerplate.json')
+    paths: grunt.file.readJSON('paths.json')
 
+    # Set Banner for some generated files
+    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
 
-    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
-
-
-    # process coffee-files
+    # coffee
     coffee:
-      dev:
+      all:
         files: [
           expand: true
-          cwd: '<%= paths.coffee %>'
+          cwd: '<%= paths.src.coffee %>'
           src: ['*.coffee']
-          dest: '<%= paths.coffee %>pre_js'
-          ext: '.js'
-        ]
-      prod:
-        options:
-          join: false
-          bare: true
-        files: [
-          expand: true
-          cwd: '<%= paths.coffee %>'
-          src: ['*.coffee']
-          dest: '<%= paths.coffee %>pre_js'
+          dest: '<%= paths.src.js %>'
           ext: '.js'
         ]
 
-    # minify js-files
+    # eslint
+    eslint:
+      options:
+        config: 'eslint.json'
+      all: ['<%= paths.src.js %>*.js']
+
+    # uglify
     uglify:
       options:
         banner: '<%= banner %>'
       all:
-        files:
-          '<%= paths.js %>script.js': [
-            '<%= paths.coffee %>pre_js/jquery*.js'
-            '<%= paths.coffee %>pre_js/*.js'
-          ]
-        options:
-          mangle: false
+        files: [
+          expand: true
+          cwd: '<%= paths.src.js %>'
+          src: ['*.js']
+          dest: '<%= paths.build.js %>'
+          ext: '.min.js'
+        ]
 
-    eslint:
-      options:
-        config: 'conf/eslint.json'
-      all: ['<%= paths.coffee %>pre_js/*.js']
-
-
-    # process sass-files
+    # sass
     sass:
       all:
-        options:
-          compass: true
-          style: 'compressed'
-        files: '<%= paths.sass %>css/<%= paths.sassfilename %>.css': '<%= paths.sass %><%= paths.sassfilename %>.sass'
+        files: [
+          expand: true
+          cwd: '<%= paths.src.sass %>'
+          src: ['*.sass']
+          dest: '<%= paths.src.css %>'
+          ext: '.css'
+        ]
 
-
-    # add and remove prefixes
+    # autoprefixer
     autoprefixer:
       all:
         files: [
           expand: true
-          cwd: '<%= paths.sass %>'
-          src: ['css/*.css']
-          dest: '<%= paths.sass %>'
+          cwd: '<%= paths.src.css %>'
+          src: ['*.css']
+          dest: '<%= paths.src.css %>'
+          ext: '.css'
         ]
 
-
-    # minify css-files
-    cssmin:
-      options:
-        banner: '<%= banner %>'
-      dev:
-        files: [
-          expand: true
-          cwd: '<%= paths.sass %>'
-          src: ['css/*.css']
-          dest: '<%= paths.sass %>'
-        ]
-      prod:
-        files: [
-          expand: true
-          cwd: '<%= paths.sass %>'
-          src: ['css/*.css']
-          dest: '<%= paths.sass %>'
-        ]
-
-
-    copy:
-      all:
-        files: [
-          flatten: true
-          expand: true
-          cwd: '<%= paths.sass %>'
-          src: ['css/*.css']
-          dest: '<%= paths.css %>'
-        ]
-
-
+    # imageEmbed
     imageEmbed:
       options:
         deleteAfterEncoding : false
       all:
         files: [
           expand: true
-          cwd: '<%= paths.css %>'
+          cwd: '<%= paths.src.css %>'
           src: ['*.css']
-          dest: '<%= paths.css %>'
+          dest: '<%= paths.src.css %>'
         ]
 
-
-    # compress images
-    imagemin:
+    # cssmin
+    cssmin:
       options:
-        optimizationLevel: 7
+        banner: '<%= banner %>'
       all:
         files: [
           expand: true
-          cwd: './thumbs/uncompressed'
-          src: ['**/*.{gif,png}']
-          dest: './thumbs/'
+          cwd: '<%= paths.src.css %>'
+          src: ['*.css']
+          dest: '<%= paths.build.css %>'
+          ext: '.min.css'
         ]
-      jpg:
+
+    # watch
+    watch:
+      # watch coffee
+      coffee:
+        files: ['<%= paths.src.coffee %>*.coffee']
+        tasks: ['newer:coffee', 'newer:eslint', 'newer:uglify']
         options:
-          progressive: true
+          livereload: true
+      # watch sass
+      sass:
+        files: ['<%= paths.src.sass %>*.sass']
+        tasks: ['newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin']
+        options:
+          livereload: true
+
+      # watch templates
+      templates:
+        files: ['<%= paths.src.dir %>*.{html,php}']
+        tasks: ['newer:copy']
+        options:
+          livereload: true
+
+    # copy
+    copy:
+      all:
         files: [
           expand: true
-          cwd: './thumbs/uncompressed'
-          src: ['**/*.jpg']
-          dest: './thumbs/'
+          cwd: '<%= paths.src.dir %>'
+          src: ['*.{html,php}']
+          dest: '<%= paths.build.dir %>'
         ]
 
-    # test accessability
-    shell:
-      pa11y:
-        options:
-          stdout: true
-        command: 'pa11y http://<%= php.all.options.hostname %>:<%= php.all.options.port%>'
-
-
-    watch:
-
-      styles_dev:
-        files: ['<%= paths.sass %>**/*.sass']
-        tasks: ['sass','newer:cssmin:dev','copy','newer:imageEmbed']
-        options:
-          livereload: true
-      script_dev:
-        files: ['<%= paths.coffee %>*.coffee']
-        tasks: ['newer:coffee:dev','newer:uglify','newer:eslint']
-        options:
-          livereload: true
-
-      styles_prod:
-        files: ['<%= paths.sass %>**/*.sass']
-        #tasks: ['newer:sass','newer:autoprefixer','newer:cssmin:prod','newer:imageEmbed']
-        tasks: ['sass','newer:autoprefixer','newer:cssmin:prod','copy']
-        options:
-          livereload: true
-      script_prod:
-        files: ['<%= paths.coffee %>*.coffee']
-        tasks: ['newer:coffee:prod','newer:uglify']
-        options:
-          livereload: true
-
-      images:
-        files: [
-          'thumbs/uncompressed/**/*.{gif,png,jpg}'
-        ]
-        tasks: ['newer:imagemin']
-        options:
-          livereload: true
-
-      templates:
-        files: [
-          'site/templates/**/*'
-          'site/snippets/**/*'
-          'site/plugins/**/*'
-          'assets/images/**/*'
-        ]
-        options:
-          livereload: true
-
-
+    # php
     php:
       all:
         options:
           port: 1337
           hostname: 'localhost'
-          base: '<%= paths.base %>'
+          base: '<%= paths.build.dir %>'
           keepalive: true
           open: true
 
-
-    concurrent:
-      dev:
-        tasks: ['php','switchwatch:styles_dev:script_dev:images:templates']
-      prod:
-        tasks: ['php','switchwatch:styles_prod:script_prod:images:templates']
-      options:
-        logConcurrentOutput: true
-
-
-  # Run with: grunt switchwatch:target1:target2 to only watch those targets
-  grunt.registerTask 'switchwatch', ->
-    targets = Array.prototype.slice.call(arguments, 0)
-    Object.keys(grunt.config('watch')).filter (target) ->
-      return !(grunt.util._.indexOf(targets, target) != -1)
-    .forEach (target) ->
-      grunt.log.writeln('Ignoring ' + target + '...')
-      grunt.config(['watch', target], {files: []})
-    grunt.task.run('watch')
-
-
+  # Default task(s)
+  grunt.registerTask('default', ['watch'])
   grunt.registerTask('server', ['php'])
-
-  #grunt.registerTask('dev', ['switchwatch:styles_dev:script_dev:images:templates'])
-  grunt.registerTask('dev', ['concurrent:dev'])
-  #grunt.registerTask('prod',['switchwatch:styles_prod:script_prod:images:templates'])
-  grunt.registerTask('prod',['concurrent:dev'])

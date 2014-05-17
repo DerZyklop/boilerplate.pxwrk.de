@@ -1,9 +1,0 @@
-{
-  "base": "",
-  "assets": "<%= paths.base %>assets/",
-  "coffee": "<%= paths.assets %>coffee/",
-  "js": "<%= paths.assets %>js/",
-  "sass": "<%= paths.assets %>sass/",
-  "css": "<%= paths.assets %>styles/",
-  "sassfilename": "styles"
-}

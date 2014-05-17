@@ -1,6 +1,6 @@
 # boilerplate.pxwrk.de
 
-```git clone --recursiv https://github.com/DerZyklop/boilerplate.pxwrk.de.git```
+```git clone --recursive https://github.com/DerZyklop/boilerplate.pxwrk.de.git```
 
 This is my personal project-boilerplate.
 
