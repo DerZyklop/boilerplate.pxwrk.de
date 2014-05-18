@@ -137,7 +137,7 @@ module.exports = (grunt) ->
         options:
           port: 1337
           hostname: 'localhost'
-          base: '<%= paths.build.dir %>'
+          base: '<%= paths.root %>'
           keepalive: true
           open: true
 

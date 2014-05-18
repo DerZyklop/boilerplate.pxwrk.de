@@ -1,4 +1,5 @@
 {
+  "root": "",
   "src": {
     "dir":      "src/",
     "coffee":   "<%= paths.src.dir %>coffee/",
