@@ -2,6 +2,7 @@ module.exports = (grunt) ->
 
   # Get all grunt modules
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
+  require('time-grunt')(grunt)
 
   # Project configuration.
   grunt.initConfig
@@ -24,24 +25,20 @@ module.exports = (grunt) ->
           ext: '.js'
         ]
 
+    # concat
+    concat:
+      all:
+        src: [
+          'bower_components/jquery/dist/jquery.min.js'
+          '<%= paths.src.js %>*.js'
+        ]
+        dest: '<%= paths.build.js %>script.js'
+
     # eslint
     eslint:
       options:
         config: 'eslint.json'
       all: ['<%= paths.src.js %>*.js']
-
-    # uglify
-    uglify:
-      options:
-        banner: '<%= banner %>'
-      all:
-        files: [
-          expand: true
-          cwd: '<%= paths.src.js %>'
-          src: ['*.js']
-          dest: '<%= paths.build.js %>'
-          ext: '.min.js'
-        ]
 
     # sass
     sass:
@@ -95,7 +92,7 @@ module.exports = (grunt) ->
       # watch coffee
       coffee:
         files: ['<%= paths.src.coffee %>*.coffee']
-        tasks: ['newer:coffee', 'newer:eslint', 'newer:uglify']
+        tasks: ['newer:coffee', 'newer:eslint', 'concat']
         options:
           livereload: true
       # watch sass
@@ -107,7 +104,19 @@ module.exports = (grunt) ->
 
       # watch templates
       templates:
-        files: ['<%= paths.src.dir %>*.{html,php}']
+        files: [
+          '<%= paths.src.dir %>*'
+          '<%= paths.src.dir %>site/**/*'
+        ]
+        tasks: ['newer:copy']
+        options:
+          livereload: true
+
+      # watch content
+      content:
+        files: [
+          '<%= paths.src.dir %>content/**/*'
+        ]
         tasks: ['newer:copy']
         options:
           livereload: true
@@ -118,7 +127,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= paths.src.dir %>'
-          src: ['*.{html,php}']
+          src: ['**/*','!<%= paths.assets %>**','<%= paths.assets %>images/**/*']
           dest: '<%= paths.build.dir %>'
         ]
 
@@ -132,6 +141,22 @@ module.exports = (grunt) ->
           keepalive: true
           open: true
 
+    # concurrent
+    concurrent:
+      all:
+        tasks: ['php','watch','notify']
+      options:
+        logConcurrentOutput: true
+
+    # notify
+    notify:
+      server:
+        options:
+          title: 'Yo'
+          message: 'Server läuft auf <%= php.all.options.hostname %>:<%= php.all.options.port %>'
+
+
   # Default task(s)
-  grunt.registerTask('default', ['watch'])
-  grunt.registerTask('server', ['php'])
+  grunt.registerTask('scripts', ['coffee', 'eslint', 'concat'])
+  grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin'])
+  grunt.registerTask('default', ['scripts', 'styles', 'concurrent'])
