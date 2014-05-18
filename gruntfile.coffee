@@ -29,7 +29,6 @@ module.exports = (grunt) ->
     concat:
       all:
         src: [
-          'bower_components/jquery/dist/jquery.min.js'
           '<%= paths.src.js %>*.js'
         ]
         dest: '<%= paths.build.js %>script.js'
