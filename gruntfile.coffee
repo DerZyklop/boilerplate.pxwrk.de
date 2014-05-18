@@ -84,7 +84,7 @@ module.exports = (grunt) ->
           cwd: '<%= paths.src.css %>'
           src: ['*.css']
           dest: '<%= paths.build.css %>'
-          ext: '.min.css'
+          ext: '.css'
         ]
 
     # watch
