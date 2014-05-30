@@ -62,6 +62,9 @@ module.exports = (grunt) ->
         ]
 
     # imageEmbed
+    # REMEMBER! Fonts should be ignored
+    # by trailing a `/*ImageEmbed:skip*/`
+    # after `src: url(...)`
     imageEmbed:
       options:
         deleteAfterEncoding : false
