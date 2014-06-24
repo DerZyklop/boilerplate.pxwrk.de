@@ -104,8 +104,8 @@ module.exports = (grunt) ->
         options:
           livereload: true
 
-      # watch templates
-      templates:
+      # watch copy
+      copy:
         files: [
           '<%= paths.src.dir %>*'
           '<%= paths.src.dir %>site/**/*'
