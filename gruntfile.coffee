@@ -129,7 +129,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= paths.src.dir %>'
-          src: ['**/*','!<%= paths.assets %>**','<%= paths.assets %>images/**/*']
+          src: ['**/*','!<%= paths.src.dir %>**','<%= paths.src.dir %>images/**/*']
           dest: '<%= paths.build.dir %>'
         ]
 
