@@ -1,0 +1,13 @@
+#!/bin/sh
+
+CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+### Set symlinks
+
+ln -sf $CURR_DIR/gruntfile.coffee
+
+### Copy config files
+
+cp $CURR_DIR/package.json package.json
+cp $CURR_DIR/paths.json paths.json
+# cp $CURR_DIR/index.html index.html
