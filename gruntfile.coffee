@@ -109,6 +109,7 @@ module.exports = (grunt) ->
         files: [
           '<%= paths.src.dir %>*'
           '<%= paths.src.dir %>site/**/*'
+          '<%= paths.src.dir %>images/**/*'
         ]
         tasks: ['newer:copy']
         options:
