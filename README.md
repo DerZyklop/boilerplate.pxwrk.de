@@ -3,7 +3,12 @@
 ## Install
 
 ```git clone --recursive https://github.com/DerZyklop/boilerplate.pxwrk.de.git```
+
 ```sh boilerplate.pxwrk.de/init```
+
+```npm install```
+
+```grunt```
 
 ## Wat is it?
 
