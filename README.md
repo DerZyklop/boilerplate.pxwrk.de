@@ -1,6 +1,11 @@
 # boilerplate.pxwrk.de
 
+## Install
+
 ```git clone --recursive https://github.com/DerZyklop/boilerplate.pxwrk.de.git```
+```sh boilerplate.pxwrk.de/init```
+
+## Wat is it?
 
 This is my personal project-boilerplate.
 

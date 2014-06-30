@@ -45,7 +45,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= paths.src.sass %>'
-          src: ['*.sass']
+          src: ['*.sass','!_*.sass']
           dest: '<%= paths.src.css %>'
           ext: '.css'
         ]
@@ -62,6 +62,9 @@ module.exports = (grunt) ->
         ]
 
     # imageEmbed
+    # REMEMBER! Fonts should be ignored
+    # by trailing a `/*ImageEmbed:skip*/`
+    # after `src: url(...)`
     imageEmbed:
       options:
         deleteAfterEncoding : false
@@ -101,11 +104,12 @@ module.exports = (grunt) ->
         options:
           livereload: true
 
-      # watch templates
-      templates:
+      # watch copy
+      copy:
         files: [
           '<%= paths.src.dir %>*'
           '<%= paths.src.dir %>site/**/*'
+          '<%= paths.src.dir %>images/**/*'
         ]
         tasks: ['newer:copy']
         options:
@@ -126,7 +130,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= paths.src.dir %>'
-          src: ['**/*','!<%= paths.assets %>**','<%= paths.assets %>images/**/*']
+          src: ['**/*','!<%= paths.src.dir %>**','<%= paths.src.dir %>images/**/*']
           dest: '<%= paths.build.dir %>'
         ]
 
