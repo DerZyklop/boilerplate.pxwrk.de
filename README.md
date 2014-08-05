@@ -2,6 +2,8 @@
 
 ## Install
 
+Navigate to your project.
+
 ```
 git clone --recursive https://github.com/DerZyklop/boilerplate.pxwrk.de.git
 sh boilerplate.pxwrk.de/init
