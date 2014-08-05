@@ -1,3 +1,6 @@
+    "matchdep": "0.1.x",
+    "boilerplate.pxwrk.de": "git://github.com/DerZyklop/boilerplate.pxwrk.de"
+
 # boilerplate.pxwrk.de
 
 ## Install
@@ -5,8 +8,8 @@
 Navigate to your project.
 
 ```
-git clone --recursive https://github.com/DerZyklop/boilerplate.pxwrk.de.git
-sh boilerplate.pxwrk.de/init
+npm install DerZyklop/boilerplate.pxwrk.de
+sh node_modules/boilerplate.pxwrk.de/init
 npm install
 grunt
 ```
