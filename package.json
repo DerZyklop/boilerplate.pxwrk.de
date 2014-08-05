@@ -26,5 +26,20 @@
   },
   "dependencies": {
     "time-grunt": "~0.2.10"
+  },
+  "paths": {
+    "root": "",
+    "src": {
+      "dir":      "assets/",
+      "coffee":   "assets/coffee/",
+      "js":       "assets/pre_js/",
+      "sass":     "assets/sass/",
+      "css":      "assets/pre_css/"
+    },
+    "build": {
+      "dir":      "assets/",
+      "js":       "assets/js/",
+      "css":      "assets/css/"
+    }
   }
 }

@@ -9,7 +9,6 @@ module.exports = (grunt) ->
 
     # Collect data about the project
     pkg: grunt.file.readJSON('package.json')
-    paths: grunt.file.readJSON('paths.json')
 
     # Set Banner for some generated files
     banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -19,9 +18,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.coffee %>'
+          cwd: '<%= pkg.paths.src.coffee %>'
           src: ['*.coffee']
-          dest: '<%= paths.src.js %>'
+          dest: '<%= pkg.paths.src.js %>'
           ext: '.js'
         ]
 
@@ -29,24 +28,24 @@ module.exports = (grunt) ->
     concat:
       all:
         src: [
-          '<%= paths.src.js %>*.js'
+          '<%= pkg.paths.src.js %>*.js'
         ]
-        dest: '<%= paths.build.js %>script.js'
+        dest: '<%= pkg.paths.build.js %>script.js'
 
     # eslint
     eslint:
       options:
-        config: 'eslint.json'
-      all: ['<%= paths.src.js %>*.js']
+        config: '<%= pkg.esLintRules %>'
+      all: ['<%= pkg.paths.src.js %>*.js']
 
     # sass
     sass:
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.sass %>'
+          cwd: '<%= pkg.paths.src.sass %>'
           src: ['*.sass','!_*.sass']
-          dest: '<%= paths.src.css %>'
+          dest: '<%= pkg.paths.src.css %>'
           ext: '.css'
         ]
 
@@ -55,9 +54,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.css %>'
+          cwd: '<%= pkg.paths.src.css %>'
           src: ['*.css']
-          dest: '<%= paths.src.css %>'
+          dest: '<%= pkg.paths.src.css %>'
           ext: '.css'
         ]
 
@@ -71,9 +70,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.css %>'
+          cwd: '<%= pkg.paths.src.css %>'
           src: ['*.css']
-          dest: '<%= paths.src.css %>'
+          dest: '<%= pkg.paths.src.css %>'
         ]
 
     # cssmin
@@ -83,9 +82,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.css %>'
+          cwd: '<%= pkg.paths.src.css %>'
           src: ['*.css']
-          dest: '<%= paths.build.css %>'
+          dest: '<%= pkg.paths.build.css %>'
           ext: '.css'
         ]
 
@@ -93,13 +92,13 @@ module.exports = (grunt) ->
     watch:
       # watch coffee
       coffee:
-        files: ['<%= paths.src.coffee %>*.coffee']
+        files: ['<%= pkg.paths.src.coffee %>*.coffee']
         tasks: ['newer:coffee', 'newer:eslint', 'concat']
         options:
           livereload: true
       # watch sass
       sass:
-        files: ['<%= paths.src.sass %>*.sass']
+        files: ['<%= pkg.paths.src.sass %>*.sass']
         tasks: ['newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin']
         options:
           livereload: true
@@ -107,9 +106,9 @@ module.exports = (grunt) ->
       # watch copy
       copy:
         files: [
-          '<%= paths.src.dir %>*'
-          '<%= paths.src.dir %>site/**/*'
-          '<%= paths.src.dir %>images/**/*'
+          '<%= pkg.paths.src.dir %>*'
+          '<%= pkg.paths.src.dir %>site/**/*'
+          '<%= pkg.paths.src.dir %>images/**/*'
         ]
         tasks: ['newer:copy']
         options:
@@ -118,7 +117,7 @@ module.exports = (grunt) ->
       # watch content
       content:
         files: [
-          '<%= paths.src.dir %>content/**/*'
+          '<%= pkg.paths.src.dir %>content/**/*'
         ]
         tasks: ['newer:copy']
         options:
@@ -129,9 +128,9 @@ module.exports = (grunt) ->
       all:
         files: [
           expand: true
-          cwd: '<%= paths.src.dir %>'
-          src: ['**/*','!<%= paths.src.dir %>**','<%= paths.src.dir %>images/**/*']
-          dest: '<%= paths.build.dir %>'
+          cwd: '<%= pkg.paths.src.dir %>'
+          src: ['**/*','!<%= pkg.paths.src.dir %>**','<%= pkg.paths.src.dir %>images/**/*']
+          dest: '<%= pkg.paths.build.dir %>'
         ]
 
     # php
@@ -140,7 +139,7 @@ module.exports = (grunt) ->
         options:
           port: 1337
           hostname: 'localhost'
-          base: '<%= paths.root %>'
+          base: '<%= pkg.paths.root %>'
           keepalive: true
           open: true
 
@@ -162,4 +161,5 @@ module.exports = (grunt) ->
   # Default task(s)
   grunt.registerTask('scripts', ['coffee', 'eslint', 'concat'])
   grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin'])
+  grunt.registerTask('styles', ['sass', 'autoprefixer', 'cssmin'])
   grunt.registerTask('default', ['scripts', 'styles', 'concurrent'])
