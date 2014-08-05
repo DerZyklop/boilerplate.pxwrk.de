@@ -1,11 +1,8 @@
-    "matchdep": "0.1.x",
-    "boilerplate.pxwrk.de": "git://github.com/DerZyklop/boilerplate.pxwrk.de"
-
 # boilerplate.pxwrk.de
 
 ## Install
 
-Navigate to your project.
+Navigate to your project. **Create a temporary package.json via `npm init`**.
 
 ```
 npm install DerZyklop/boilerplate.pxwrk.de
