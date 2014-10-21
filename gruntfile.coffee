@@ -93,13 +93,13 @@ module.exports = (grunt) ->
       # watch coffee
       coffee:
         files: ['<%= pkg.paths.src.coffee %>*.coffee']
-        tasks: ['newer:coffee', 'newer:eslint', 'concat']
+        tasks: ['blink1:bad', 'newer:coffee', 'newer:eslint', 'concat', 'blink1:good']
         options:
           livereload: true
       # watch sass
       sass:
         files: ['<%= pkg.paths.src.sass %>*.sass']
-        tasks: ['newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin']
+        tasks: ['blink1:bad', 'newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin', 'blink1:good']
         options:
           livereload: true
 
@@ -157,6 +157,18 @@ module.exports = (grunt) ->
           title: 'Yo'
           message: 'Server läuft auf <%= php.all.options.hostname %>:<%= php.all.options.port %>'
 
+    blink1:
+      good:
+        colors: ['<%= color.good %>']
+        options:
+          #turnOff: true
+          ledIndex: 2
+          fadeMillis: 500
+      bad:
+        colors: ['<%= color.bad %>']
+        options:
+          ledIndex: 2
+          fadeMillis: 500
 
   # Default task(s)
   grunt.registerTask('scripts', ['coffee', 'eslint', 'concat'])

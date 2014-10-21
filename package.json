@@ -7,6 +7,7 @@
   "devDependencies": {
     "grunt": "~0.4.4",
     "grunt-autoprefixer": "0.6.x",
+    "grunt-blink1": "^0.2.0",
     "grunt-concurrent": "~0.5.0",
     "grunt-contrib-coffee": "0.7.x",
     "grunt-contrib-concat": "^0.4.0",
@@ -30,16 +31,16 @@
   "paths": {
     "root": "",
     "src": {
-      "dir":      "assets/",
-      "coffee":   "assets/coffee/",
-      "js":       "assets/pre_js/",
-      "sass":     "assets/sass/",
-      "css":      "assets/pre_css/"
+      "dir": "assets/",
+      "coffee": "assets/coffee/",
+      "js": "assets/pre_js/",
+      "sass": "assets/sass/",
+      "css": "assets/pre_css/"
     },
     "build": {
-      "dir":      "assets/",
-      "js":       "assets/js/",
-      "css":      "assets/css/"
+      "dir": "assets/",
+      "js": "assets/js/",
+      "css": "assets/css/"
     }
   }
 }
