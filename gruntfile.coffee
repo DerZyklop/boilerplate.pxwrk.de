@@ -157,7 +157,16 @@ module.exports = (grunt) ->
           title: 'Yo'
           message: 'Server läuft auf <%= php.all.options.hostname %>:<%= php.all.options.port %>'
 
+    # blink1
+    color:
+      process: '#660'
+      good: '#086'
+      bad: '#900'
+
     blink1:
+      off:
+        options:
+          turnOff: true
       good:
         colors: ['<%= color.good %>']
         options:
@@ -174,4 +183,4 @@ module.exports = (grunt) ->
   grunt.registerTask('scripts', ['coffee', 'eslint', 'concat'])
   grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin'])
   grunt.registerTask('styles', ['sass', 'autoprefixer', 'cssmin'])
-  grunt.registerTask('default', ['scripts', 'styles', 'concurrent'])
+  grunt.registerTask('default', ['blink1:off', 'scripts', 'styles', 'blink1:good', 'concurrent'])
