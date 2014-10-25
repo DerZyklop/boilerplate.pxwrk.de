@@ -146,7 +146,12 @@ module.exports = (grunt) ->
     # concurrent
     concurrent:
       all:
-        tasks: ['php','watch','notify']
+        tasks: [
+          'php'
+          'watch'
+          'notify'
+          'blink1:good'
+        ]
       options:
         logConcurrentOutput: true
 
