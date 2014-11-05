@@ -39,9 +39,6 @@
       "sass": "assets/sass/",
       "css": "assets/pre_css/",
       "css_concat": [
-        "bower_components/prism/themes/prism.css",
-        "bower_components/prism/themes/prism-twilight.css",
-        "bower_components/fancybox/source/jquery.fancybox.css",
         "assets/pre_css/*.css"
       ]
     },
