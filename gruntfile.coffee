@@ -94,13 +94,13 @@ module.exports = (grunt) ->
       # watch coffee
       coffee:
         files: ['<%= pkg.paths.src.coffee %>*.coffee']
-        tasks: ['blink1:bad', 'newer:coffee', 'newer:eslint', 'concat:js', 'blink1:good']
+        tasks: ['newer:coffee', 'newer:eslint', 'concat:js']
         options:
           livereload: true
       # watch sass
       sass:
         files: ['<%= pkg.paths.src.sass %>*.sass']
-        tasks: ['blink1:bad', 'newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin', 'concat:css', 'blink1:good']
+        tasks: ['newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin', 'concat:css']
         options:
           livereload: true
 
@@ -151,7 +151,6 @@ module.exports = (grunt) ->
           'php'
           'watch'
           'notify'
-          'blink1:good'
         ]
       options:
         logConcurrentOutput: true
@@ -163,29 +162,7 @@ module.exports = (grunt) ->
           title: 'Yo'
           message: 'Server läuft auf <%= php.all.options.hostname %>:<%= php.all.options.port %>'
 
-    # blink1
-    color:
-      process: '#660'
-      good: '#086'
-      bad: '#900'
-
-    blink1:
-      off:
-        options:
-          turnOff: true
-      good:
-        colors: ['<%= color.good %>']
-        options:
-          #turnOff: true
-          ledIndex: 2
-          fadeMillis: 500
-      bad:
-        colors: ['<%= color.bad %>']
-        options:
-          ledIndex: 2
-          fadeMillis: 500
-
   # Default task(s)
   grunt.registerTask('scripts', ['coffee', 'eslint', 'concat:js'])
   grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin', 'concat:css'])
-  grunt.registerTask('default', ['blink1:off', 'scripts', 'styles', 'blink1:good', 'concurrent'])
+  grunt.registerTask('default', ['scripts', 'styles', 'concurrent'])
