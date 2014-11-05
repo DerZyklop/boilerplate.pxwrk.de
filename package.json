@@ -34,8 +34,17 @@
       "dir": "assets/",
       "coffee": "assets/coffee/",
       "js": "assets/pre_js/",
+      "js_concat": [
+          "assets/pre_js/*.js"
+      ],
       "sass": "assets/sass/",
-      "css": "assets/pre_css/"
+      "css": "assets/pre_css/",
+      "css_concat": [
+        "bower_components/prism/themes/prism.css",
+        "bower_components/prism/themes/prism-twilight.css",
+        "bower_components/fancybox/source/jquery.fancybox.css",
+        "assets/pre_css/*.css"
+      ]
     },
     "build": {
       "dir": "assets/",
