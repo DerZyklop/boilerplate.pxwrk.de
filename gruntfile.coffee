@@ -26,11 +26,12 @@ module.exports = (grunt) ->
 
     # concat
     concat:
-      all:
-        src: [
-          '<%= pkg.paths.src.js %>*.js'
-        ]
+      js:
+        src: '<%= pkg.paths.src.js_concat %>'
         dest: '<%= pkg.paths.build.js %>script.js'
+      css:
+        src: '<%= pkg.paths.src.css_concat %>'
+        dest: '<%= pkg.paths.build.css %>styles.css'
 
     # eslint
     eslint:
@@ -84,7 +85,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: '<%= pkg.paths.src.css %>'
           src: ['*.css']
-          dest: '<%= pkg.paths.build.css %>'
+          dest: '<%= pkg.paths.src.css %>'
           ext: '.css'
         ]
 
@@ -93,13 +94,13 @@ module.exports = (grunt) ->
       # watch coffee
       coffee:
         files: ['<%= pkg.paths.src.coffee %>*.coffee']
-        tasks: ['blink1:bad', 'newer:coffee', 'newer:eslint', 'concat', 'blink1:good']
+        tasks: ['blink1:bad', 'newer:coffee', 'newer:eslint', 'concat:js', 'blink1:good']
         options:
           livereload: true
       # watch sass
       sass:
         files: ['<%= pkg.paths.src.sass %>*.sass']
-        tasks: ['blink1:bad', 'newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin', 'blink1:good']
+        tasks: ['blink1:bad', 'newer:sass', 'newer:autoprefixer', 'newer:imageEmbed', 'newer:cssmin', 'concat:css', 'blink1:good']
         options:
           livereload: true
 
@@ -185,7 +186,6 @@ module.exports = (grunt) ->
           fadeMillis: 500
 
   # Default task(s)
-  grunt.registerTask('scripts', ['coffee', 'eslint', 'concat'])
-  grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin'])
-  grunt.registerTask('styles', ['sass', 'autoprefixer', 'cssmin'])
+  grunt.registerTask('scripts', ['coffee', 'eslint', 'concat:js'])
+  grunt.registerTask('styles', ['sass', 'autoprefixer', 'imageEmbed', 'cssmin', 'concat:css'])
   grunt.registerTask('default', ['blink1:off', 'scripts', 'styles', 'blink1:good', 'concurrent'])
