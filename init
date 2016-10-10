@@ -9,3 +9,8 @@ ln -sf $CURR_DIR/gruntfile.coffee
 ### Copy config files
 
 cp $CURR_DIR/package.json package.json
+
+mkdir $CURR_DIR/assets/sass
+touch $CURR_DIR/assets/sass/styles.sass
+mkdir $CURR_DIR/assets/coffee
+touch $CURR_DIR/assets/sass/script.coffee
