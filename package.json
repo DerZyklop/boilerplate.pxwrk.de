@@ -28,7 +28,6 @@
     "time-grunt": "~0.2.10"
   },
   "scripts": {
-    "postinstall": "bower install",
     "prestart": "npm install",
     "start": "grunt"
   },
